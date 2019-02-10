@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import TopTable from './market_overview/TopTable'
 import MoversTable from './market_overview/MoversTable'
 
+import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+
 class App extends Component {
 
   constructor(props) {
@@ -56,7 +59,14 @@ class App extends Component {
             Crypto Dashboard
           </h1>
           
-          <TopTable data={topTen}/>
+          <div className="main_container">
+            <Grid container spacing={24}>
+              <Grid item xs={12}>
+                <TopTable data={topTen}/>
+              </Grid>
+            </Grid>
+          </div>
+
           <MoversTable data={topTenGainers}/>
           <MoversTable data={topTenLosers}/>
         </div>
@@ -74,4 +84,15 @@ class App extends Component {
   }
 }
 
-export default App;
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing.unit * 2,
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+});
+
+export default withStyles(styles)(App);

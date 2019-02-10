@@ -12,3 +12,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+.main_container {
+  margin: 2em;
+}
+.red_text {
+  color: red;
+}
+.green_text {
+  color: green;
+}
