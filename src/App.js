@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import TopTable from './market_overview/TopTable'
+import TopTenOverview from './market_overview/TopTenOverview'
 import MoversTable from './market_overview/MoversTable'
 
 import { withStyles } from '@material-ui/core/styles';
@@ -16,7 +16,48 @@ class App extends Component {
     };
   }
 
-  componentDidMount() {
+  render() {
+
+    // Wait for data to load
+    if(this.state.data) {
+
+      let topChartsData = this.state.data
+      // Slice to create a new array
+      let sortedBy24HrPrice = topChartsData.slice().sort((a, b) => a.RAW.USD.CHANGEPCT24HOUR < b.RAW.USD.CHANGEPCT24HOUR)
+      let topTen = topChartsData.slice(0, 10)
+      let topTenGainers = sortedBy24HrPrice.slice(0, 10)
+      let topTenLosers = sortedBy24HrPrice.slice(-10).reverse()
+
+      return (
+        <div className="app">
+          <h1>
+            Crypto Dashboard
+          </h1>
+          
+          <div className="main_container">
+            <Grid container spacing={24}>
+              <TopTenOverview data={topTen}/>
+            </Grid>
+          </div>
+
+          <MoversTable data={topTenGainers}/>
+          <MoversTable data={topTenLosers}/>
+        </div>
+      );
+    } else {
+      return (
+        <div className="loading">
+          <h1>
+            Loading
+          </h1>
+        </div>
+      )
+    }
+    
+  }
+
+  // Pull data (only from cryptocompare for now)
+  fetchData = () => {
 
     fetch(`https://min-api.cryptocompare.com/data/top/mktcapfull?limit=100&tsym=USD`, {
       method: 'GET',
@@ -40,48 +81,18 @@ class App extends Component {
           });
         }
       )
+
   }
 
-  render() {
-    if(this.state.data) {
-
-      let topChartsData = this.state.data
-      // Slice to create a new array
-      let sortedBy24HrPrice = topChartsData.slice().sort((a, b) => a.RAW.USD.CHANGEPCT24HOUR < b.RAW.USD.CHANGEPCT24HOUR)
-
-      let topTen = topChartsData.slice(0, 10)
-      let topTenGainers = sortedBy24HrPrice.slice(0, 10)
-      let topTenLosers = sortedBy24HrPrice.slice(-10).reverse()
-
-      return (
-        <div className="App">
-          <h1>
-            Crypto Dashboard
-          </h1>
-          
-          <div className="main_container">
-            <Grid container spacing={24}>
-              <Grid item xs={12}>
-                <TopTable data={topTen}/>
-              </Grid>
-            </Grid>
-          </div>
-
-          <MoversTable data={topTenGainers}/>
-          <MoversTable data={topTenLosers}/>
-        </div>
-      );
-    } else {
-      return (
-        <div className="App">
-          <h1>
-            Loading
-          </h1>
-        </div>
-      )
-    }
-    
+  // This will grab all the data used to render pages
+  componentDidMount() {
+    this.fetchData();
+    setInterval(() => {
+      this.fetchData()
+      console.log("Fetching new data")
+    }, 300000) // Fetch every 5 min
   }
+
 }
 
 const styles = theme => ({

@@ -17,6 +17,7 @@ const styles = theme => ({
     minWidth: 700,
   },
 });
+const cryptocompareRootURL = "https://www.cryptocompare.com/"
 
 class TopTable extends Component {
 
@@ -38,16 +39,25 @@ class TopTable extends Component {
             </TableHead>
 
             <TableBody>
+
               {data.map(ticker => (
-                <TableRow key={ticker.CoinInfo.Name}>
+
+                <TableRow 
+                  className="cursor-pointer" 
+                  key={ticker.CoinInfo.Name} 
+                  onClick={((e) => this.props.rowClicked(e, ticker))}
+                  selected={ticker === this.props.selectedTicker}
+                >
                   <TableCell component="th" scope="row">
-                    {ticker.CoinInfo.Name}
+                    <img className="ticker-img" src={cryptocompareRootURL+ticker.CoinInfo.ImageUrl} alt={ticker.CoinInfo.Name}/>&nbsp;&nbsp;{ticker.CoinInfo.Name}
                   </TableCell>
                   <TableCell>{ticker.CoinInfo.FullName}</TableCell>
                   <TableCell>{ticker.DISPLAY.USD.PRICE}</TableCell>
                   <TableCell><span className={ticker.RAW.USD.CHANGEPCT24HOUR > 0 ? "green_text" : "red_text"}>{`${ticker.DISPLAY.USD.CHANGEPCT24HOUR} %`}</span></TableCell>
                 </TableRow>
+
               ))}
+
             </TableBody>
           </Table>
         </Paper>
