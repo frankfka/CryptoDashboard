@@ -24,7 +24,6 @@ class App extends Component {
       let topChartsData = this.state.data
       // Slice to create a new array
       let sortedBy24HrPrice = topChartsData.slice().sort((a, b) => a.RAW.USD.CHANGEPCT24HOUR < b.RAW.USD.CHANGEPCT24HOUR)
-      let topTen = topChartsData.slice(0, 10)
       let topTenGainers = sortedBy24HrPrice.slice(0, 10)
       let topTenLosers = sortedBy24HrPrice.slice(-10).reverse()
 
@@ -36,7 +35,7 @@ class App extends Component {
           
           <div className="main_container">
             <Grid container spacing={24}>
-              <TopTenOverview data={topTen}/>
+              <TopTenOverview data={topChartsData}/>
             </Grid>
           </div>
 

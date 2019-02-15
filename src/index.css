@@ -19,3 +19,8 @@ body {
 .cursor-pointer {
   cursor: pointer;
 }
+.content-box {
+  border: 1px lightgray solid;
+  border-radius: 4px;
+  width: 100%;
+}

@@ -1,22 +1,11 @@
 import React, { Component } from 'react';
 
-import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 
-const styles = theme => ({
-  root: {
-    width: '100%',
-    overflowX: 'auto',
-  },
-  table: {
-    minWidth: 700,
-  },
-});
 const cryptocompareRootURL = "https://www.cryptocompare.com/"
 
 class TopTable extends Component {
@@ -26,11 +15,10 @@ class TopTable extends Component {
     if (data) {
       return (
 
-        <Paper className="top_charts">
-          <Table>
-
+          <Table className="top-charts-table">
             <TableHead>
               <TableRow>
+                <TableCell>#</TableCell>
                 <TableCell>Ticker</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Price (USD)</TableCell>
@@ -40,7 +28,7 @@ class TopTable extends Component {
 
             <TableBody>
 
-              {data.map(ticker => (
+              {data.map( (ticker, index) => (
 
                 <TableRow 
                   className="cursor-pointer" 
@@ -48,6 +36,7 @@ class TopTable extends Component {
                   onClick={((e) => this.props.rowClicked(e, ticker))}
                   selected={ticker === this.props.selectedTicker}
                 >
+                  <TableCell style={{width: "0px"}}>{index+1}</TableCell>
                   <TableCell component="th" scope="row">
                     <img className="ticker-img" src={cryptocompareRootURL+ticker.CoinInfo.ImageUrl} alt={ticker.CoinInfo.Name}/>&nbsp;&nbsp;{ticker.CoinInfo.Name}
                   </TableCell>
@@ -57,10 +46,8 @@ class TopTable extends Component {
                 </TableRow>
 
               ))}
-
             </TableBody>
           </Table>
-        </Paper>
 
       )
     } else {
@@ -69,4 +56,4 @@ class TopTable extends Component {
   }
 }
 
-export default withStyles(styles)(TopTable);
+export default TopTable
