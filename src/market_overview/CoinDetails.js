@@ -1,24 +1,92 @@
 import React, { Component } from 'react';
+import './css/coin_details.css'
+import SimplePriceChart from '../util/SimplePriceChart'
 
 class CoinDetails extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      error: null,
+      chartIsLoaded: false,
+      chartData: null
+    };
+  }
+
   render() {
     let ticker = this.props.ticker
+
     if (ticker) {
+      let coinInfo = ticker.CoinInfo
+      let displayUSD = ticker.DISPLAY.USD
       return (
 
         <div className="coin-details-wrapper">
-            <h2>{ticker.CoinInfo.FullName} | {ticker.CoinInfo.Name}</h2>
-            <h4>{ticker.DISPLAY.USD.PRICE}</h4>
-        
+          <h2>{coinInfo.FullName}</h2>
+          <h4>{coinInfo.Name} | {displayUSD.PRICE}</h4>
+
+          <div className="coin-details-chart-section">
+            <h3 className="coin-details-chart-heading">Chart</h3>
+            <SimplePriceChart data={this.state.chartData}></SimplePriceChart>
+          </div>
+
+          <div className="coin-details-detail-section">
+            <h3 className="coin-details-details-heading">Details</h3>
+            <p>Price: <span>{displayUSD.PRICE}</span></p>
+            <p>Market Cap: <span>{displayUSD.MKTCAP}</span></p>
+            <p>Change % (24 hr): <span>{displayUSD.CHANGEPCT24HOUR} %</span></p>
+            <p>Volume (24 hr): <span>{displayUSD.TOTALVOLUME24HTO}</span></p>
+            <p>Open (24 hr): <span>{displayUSD.OPEN24HOUR}</span></p>
+            <p>High (24 hr): <span>{displayUSD.HIGH24HOUR}</span></p>
+            <p>Low (24 hr): <span>{displayUSD.LOW24HOUR}</span></p>            
+          </div>
 
         </div>
 
       )
     } else {
-      return <h1>No Data Given</h1>
+      return <h1>No Ticker Selected</h1>
     }
   }
+
+  componentDidUpdate(prevProps) {
+    if ((prevProps.ticker.CoinInfo.Name !== this.props.ticker.CoinInfo.Name)) {
+      console.log(this.props.ticker.CoinInfo.Name)
+      this.fetchData(this.props.ticker.CoinInfo.Name);
+    }
+  }
+
+  componentDidMount() {
+    this.fetchData(this.props.ticker.CoinInfo.Name)
+  }
+
+  // Pull data for ticker
+  fetchData = (tickerName) => {
+
+    fetch(`https://min-api.cryptocompare.com/data/histoday?fsym=${tickerName}&tsym=USD&limit=10`, {
+      method: 'GET',
+      headers: {
+        'authorization': `Apikey ${process.env.CRYPTOCOMPARE_API_KEY}`
+        },
+    })
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            chartIsLoaded: true,
+            chartData: result.Data
+          });
+        },
+        (error) => {
+          this.setState({
+            chartIsLoaded: true,
+            error
+          });
+        }
+      )
+
+  }
+
 }
 
 export default CoinDetails

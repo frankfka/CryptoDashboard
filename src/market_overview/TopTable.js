@@ -36,7 +36,7 @@ class TopTable extends Component {
                   onClick={((e) => this.props.rowClicked(e, ticker))}
                   selected={ticker === this.props.selectedTicker}
                 >
-                  <TableCell style={{width: "0px"}}>{index+1}</TableCell>
+                  <TableCell className="table-index-coln">{index+1}</TableCell>
                   <TableCell component="th" scope="row">
                     <img className="ticker-img" src={cryptocompareRootURL+ticker.CoinInfo.ImageUrl} alt={ticker.CoinInfo.Name}/>&nbsp;&nbsp;{ticker.CoinInfo.Name}
                   </TableCell>

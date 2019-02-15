@@ -1,3 +1,6 @@
 .top-charts-table {
     border-right: 1px solid lightgray;
 }
+.table-index-coln {
+    width: 0px;
+}
