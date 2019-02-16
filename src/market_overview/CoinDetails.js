@@ -51,11 +51,10 @@ class CoinDetails extends Component {
 
   componentDidUpdate(prevProps) {
     if ((prevProps.ticker.CoinInfo.Name !== this.props.ticker.CoinInfo.Name)) {
-      console.log(this.props.ticker.CoinInfo.Name)
       this.fetchData(this.props.ticker.CoinInfo.Name);
     }
   }
-
+  
   componentDidMount() {
     this.fetchData(this.props.ticker.CoinInfo.Name)
   }
