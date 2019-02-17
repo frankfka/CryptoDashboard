@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './css/coin_details.css'
-import SimplePriceChart from '../util/SimplePriceChart'
+import SimplePriceChart from '../../util/SimplePriceChart'
 
 class CoinDetails extends Component {
 
@@ -50,7 +50,8 @@ class CoinDetails extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if ((prevProps.ticker.CoinInfo.Name !== this.props.ticker.CoinInfo.Name)) {
+    // Also checks if price is different (meaning the component should update its display)
+    if ((prevProps.ticker.CoinInfo.Name !== this.props.ticker.CoinInfo.Name) || (prevProps.ticker.DISPLAY.USD.PRICE !== this.props.ticker.DISPLAY.USD.PRICE)) {
       this.fetchData(this.props.ticker.CoinInfo.Name);
     }
   }

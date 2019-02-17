@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import TopTenOverview from './market_overview/TopTenOverview'
-import MoversTable from './market_overview/MoversTable'
+import LatestActivity from './market_overview/LatestActivity'
 
 import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
+import TradingViewTopBar from './market_overview/TradingViewTopBar';
 
 class App extends Component {
 
@@ -29,18 +29,18 @@ class App extends Component {
 
       return (
         <div className="app">
+          <TradingViewTopBar/>
           <h1>
             Crypto Dashboard
           </h1>
           
           <div className="main_container">
-            <Grid container spacing={24}>
-              <TopTenOverview data={topChartsData.slice(0,10)}/>
-            </Grid>
+            <TopTenOverview data={topChartsData.slice(0,10)}/>
           </div>
 
-          <MoversTable data={topTenGainers}/>
-          <MoversTable data={topTenLosers}/>
+          <div className="main_container">
+            <LatestActivity topGainers={topTenGainers} topLosers={topTenLosers}/>
+          </div>
         </div>
       );
     } else {
@@ -88,7 +88,6 @@ class App extends Component {
     this.fetchData();
     setInterval(() => {
       this.fetchData()
-      console.log("Fetching new data")
     }, 300000) // Fetch every 5 min
   }
 

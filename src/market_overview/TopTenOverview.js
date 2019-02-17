@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './css/top_ten_overview.css'
 
-import TopTable from './TopTable';
-import CoinDetails from './CoinDetails'
+import TopTable from './components/TopTable';
+import CoinDetails from './components/CoinDetails'
+
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
@@ -12,12 +13,16 @@ class TopTenOverview extends Component {
     super(props);
     this.state = {
       selectedTicker: null,
+      selectedTickerIndex: 0
     };
   }
 
-  tableRowClicked = (e, ticker) => {
+  tableRowClicked = (e, ticker, index) => {
     e.preventDefault()
-    this.setState({selectedTicker: ticker})
+    this.setState({
+      selectedTicker: ticker,
+      selectedTickerIndex: index
+    })
   }
 
   render() {
@@ -30,12 +35,12 @@ class TopTenOverview extends Component {
             <TopTable 
               data={this.props.data} 
               rowClicked={this.tableRowClicked.bind(this)}
-              selectedTicker={this.state.selectedTicker}
+              selectedTickerIndex={this.state.selectedTickerIndex}
             />
           </Col>
           <Col xs="4">
             <CoinDetails
-              ticker={this.state.selectedTicker ? this.state.selectedTicker : (this.props.data ? this.props.data[0] : null)}
+              ticker={(this.props.data ? this.props.data[this.state.selectedTickerIndex] : null)}
             />
           </Col>
         </Row>
@@ -46,8 +51,14 @@ class TopTenOverview extends Component {
 
   componentDidMount() {
     if (this.props.data) {
-      this.setState({selectedTicker: this.props.data[0]})
+      this.setState({selectedTicker: this.props.data[this.state.selectedTickerIndex]})
     }
+  }
+
+  componentWillReceiveProps() {
+    this.setState({
+      selectedTicker: this.props.data[this.state.selectedTickerIndex]
+    })
   }
 
 }

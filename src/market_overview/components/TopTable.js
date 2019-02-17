@@ -33,8 +33,8 @@ class TopTable extends Component {
                 <TableRow 
                   className="cursor-pointer" 
                   key={ticker.CoinInfo.Name} 
-                  onClick={((e) => this.props.rowClicked(e, ticker))}
-                  selected={ticker === this.props.selectedTicker}
+                  onClick={((e) => this.props.rowClicked(e, ticker, index))}
+                  selected={index === this.props.selectedTickerIndex}
                 >
                   <TableCell className="table-index-coln">{index+1}</TableCell>
                   <TableCell component="th" scope="row">
