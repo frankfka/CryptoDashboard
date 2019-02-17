@@ -35,7 +35,7 @@ class App extends Component {
           
           <div className="main_container">
             <Grid container spacing={24}>
-              <TopTenOverview data={topChartsData}/>
+              <TopTenOverview data={topChartsData.slice(0,10)}/>
             </Grid>
           </div>
 

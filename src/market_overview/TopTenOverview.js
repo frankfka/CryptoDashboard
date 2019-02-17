@@ -3,7 +3,6 @@ import './css/top_ten_overview.css'
 
 import TopTable from './TopTable';
 import CoinDetails from './CoinDetails'
-import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
@@ -26,22 +25,20 @@ class TopTenOverview extends Component {
     return (
 
       <div className="content-box">
-        <Container>
-          <Row>
-            <Col xs="4">
-              <TopTable 
-                data={this.props.data} 
-                rowClicked={this.tableRowClicked.bind(this)}
-                selectedTicker={this.state.selectedTicker}
-              />
-            </Col>
-            <Col xs="8">
-              <CoinDetails
-                ticker={this.state.selectedTicker ? this.state.selectedTicker : (this.props.data ? this.props.data[0] : null)}
-              />
-            </Col>
-          </Row>
-        </Container>
+        <Row>
+          <Col xs="8">
+            <TopTable 
+              data={this.props.data} 
+              rowClicked={this.tableRowClicked.bind(this)}
+              selectedTicker={this.state.selectedTicker}
+            />
+          </Col>
+          <Col xs="4">
+            <CoinDetails
+              ticker={this.state.selectedTicker ? this.state.selectedTicker : (this.props.data ? this.props.data[0] : null)}
+            />
+          </Col>
+        </Row>
       </div>
 
     )

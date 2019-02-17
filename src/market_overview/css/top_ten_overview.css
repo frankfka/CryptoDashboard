@@ -1,5 +1,7 @@
 .top-charts-table {
     border-right: 1px solid lightgray;
+    width: 100%;
+    height: 100%;
 }
 .table-index-coln {
     width: 0px;

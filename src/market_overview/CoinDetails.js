@@ -25,20 +25,20 @@ class CoinDetails extends Component {
           <h2>{coinInfo.FullName}</h2>
           <h4>{coinInfo.Name} | {displayUSD.PRICE}</h4>
 
-          <div className="coin-details-chart-section">
+          <div className="coin-details-section">
             <h3 className="coin-details-chart-heading">Chart</h3>
             <SimplePriceChart data={this.state.chartData}></SimplePriceChart>
           </div>
 
-          <div className="coin-details-detail-section">
+          <div className="coin-details-section">
             <h3 className="coin-details-details-heading">Details</h3>
-            <p>Price: <span>{displayUSD.PRICE}</span></p>
-            <p>Market Cap: <span>{displayUSD.MKTCAP}</span></p>
-            <p>Change % (24 hr): <span>{displayUSD.CHANGEPCT24HOUR} %</span></p>
-            <p>Volume (24 hr): <span>{displayUSD.TOTALVOLUME24HTO}</span></p>
-            <p>Open (24 hr): <span>{displayUSD.OPEN24HOUR}</span></p>
-            <p>High (24 hr): <span>{displayUSD.HIGH24HOUR}</span></p>
-            <p>Low (24 hr): <span>{displayUSD.LOW24HOUR}</span></p>            
+            <p><span className="detail-label">Price:</span> <span>{displayUSD.PRICE}</span></p>
+            <p><span className="detail-label">Market Cap:</span> <span>{displayUSD.MKTCAP}</span></p>
+            <p><span className="detail-label">Change % (24hr):</span> <span>{displayUSD.CHANGEPCT24HOUR} %</span></p>
+            <p><span className="detail-label">Volume (24hr):</span> <span>{displayUSD.TOTALVOLUME24HTO}</span></p>
+            <p><span className="detail-label">Open (24hr):</span> <span>{displayUSD.OPEN24HOUR}</span></p>
+            <p><span className="detail-label">High (24hr):</span> <span>{displayUSD.HIGH24HOUR}</span></p>
+            <p><span className="detail-label">Low (24hr):</span> <span>{displayUSD.LOW24HOUR}</span></p>            
           </div>
 
         </div>
