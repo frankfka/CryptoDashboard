@@ -1,0 +1,11 @@
+.news-feed-item {
+    padding-top: 0.2em;
+}
+.news-feed-main-container {
+    padding-top: 2em;
+    padding-left: 2em;
+    padding-right: 2em;
+}
+.news-feed-main-container h4 {
+    margin-bottom: 1em;
+}

@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import Moment from 'react-moment';
+
+import './css/news_feed.css'
 
 class CoinDetails extends Component {
 
@@ -18,9 +21,17 @@ class CoinDetails extends Component {
 
       return (
 
-        <div className="news-feed-wrapper">
+        <div className="content-box">
+          <div className="news-feed-main-container">
+            <h4>Latest News</h4> 
+            {data.map((newsItem, index) => (
+              <div className="news-feed-item" key={index}>
+                <h5><a href={newsItem.url} target="_blank" rel="noopener noreferrer">{newsItem.title}</a></h5>
+                <p><Moment format="MMM DD YYYY">{newsItem.published_at}</Moment> | {newsItem.source.title}</p>
+              </div>
+            ))}
+          </div>
         </div>
-
       )
     } else {
       return <h1>Loading</h1>
@@ -46,8 +57,9 @@ class CoinDetails extends Component {
         (result) => {
           this.setState({
             isLoaded: true,
-            data: result.Data
+            data: result.results
           });
+          console.log(result.results)
         },
         (error) => {
           this.setState({
@@ -56,8 +68,6 @@ class CoinDetails extends Component {
           });
         }
       )
-
-      console.log(this.state)
 
   }
 

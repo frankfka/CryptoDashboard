@@ -43,9 +43,9 @@ class App extends Component {
             <LatestActivity topGainers={topTenGainers} topLosers={topTenLosers}/>
           </div>
 
-          {/* <div className="main_container">
+          <div className="main_container">
             <NewsFeed/>
-          </div> */}
+          </div>
 
         </div>
       );

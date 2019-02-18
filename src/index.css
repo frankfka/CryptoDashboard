@@ -23,4 +23,5 @@ body {
   border: 1px lightgray solid;
   border-radius: 4px;
   width: 100%;
+  padding: 1em;
 }
