@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TopTenOverview from './market_overview/TopTenOverview'
 import LatestActivity from './market_overview/LatestActivity'
+import NewsFeed from './market_overview/NewsFeed'
 
 import { withStyles } from '@material-ui/core/styles';
 import TradingViewTopBar from './market_overview/TradingViewTopBar';
@@ -41,6 +42,11 @@ class App extends Component {
           <div className="main_container">
             <LatestActivity topGainers={topTenGainers} topLosers={topTenLosers}/>
           </div>
+
+          {/* <div className="main_container">
+            <NewsFeed/>
+          </div> */}
+
         </div>
       );
     } else {

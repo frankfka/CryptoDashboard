@@ -14,19 +14,19 @@ class MoversTable extends Component {
 
       let header;
       if(this.props.showHeaders) {
-        header = <TableHead>
+        header = 
+        <TableHead>
           <TableRow>
             <TableCell>Ticker</TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Price (USD)</TableCell>
             <TableCell>24 Hr Change (%)</TableCell>
           </TableRow>
-        </TableHead>;
+        </TableHead>
       }
 
-      console.log(header)
       return (
-        <Table className="top-charts-table">
+        <Table className="top-movers-table">
 
             {header}
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './css/top_ten_overview.css'
+import './css/latest_activity.css'
 
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
@@ -14,37 +14,27 @@ class TopTenOverview extends Component {
       <div className="content-box">
         <Row>
           <Col xs="6">
-          <Row>
-            <MoversTable
-              showHeaders={true}
-              data={this.props.topGainers}
-            />
-          </Row>
-          <Row>
-            <MoversTable
-              showHeaders={false}
-              data={this.props.topLosers}
-            />
-          </Row>
+            <div className="latest-charts-container">
+              <h4>Top Gainers</h4>
+              <MoversTable
+                  showHeaders={true}
+                  data={this.props.topGainers}
+              />
+            </div>
           </Col>
           <Col xs="6">
+            <div className="latest-charts-container">
+              <h4>Top Losers</h4>
+              <MoversTable
+                showHeaders={true}
+                data={this.props.topLosers}
+              />
+            </div>
           </Col>
         </Row>
       </div>
 
     )
-  }
-
-  componentDidMount() {
-    if (this.props.data) {
-      this.setState({selectedTicker: this.props.data[this.state.selectedTickerIndex]})
-    }
-  }
-
-  componentWillReceiveProps() {
-    this.setState({
-      selectedTicker: this.props.data[this.state.selectedTickerIndex]
-    })
   }
 
 }

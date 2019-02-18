@@ -13,8 +13,8 @@
     "react-scripts": "^2.1.5"
   },
   "scripts": {
-    "start": "cross-env CRYPTOCOMPARE_API_KEY=8088cea6635be8f020cd6673f2595803da16dae057a32b47683e12c337081751 react-scripts start",
-    "build": "cross-env CRYPTOCOMPARE_API_KEY=8088cea6635be8f020cd6673f2595803da16dae057a32b47683e12c337081751 react-scripts build",
+    "start": "cross-env CRYPTOCOMPARE_API_KEY=8088cea6635be8f020cd6673f2595803da16dae057a32b47683e12c337081751 CRYPTOPANIC_API_KEY=2a9a268e94067b0fe98facdea4ed378a568832c3 react-scripts start",
+    "build": "cross-env CRYPTOCOMPARE_API_KEY=8088cea6635be8f020cd6673f2595803da16dae057a32b47683e12c337081751 CRYPTOPANIC_API_KEY=2a9a268e94067b0fe98facdea4ed378a568832c3 react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
