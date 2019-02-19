@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.9.2",
+    "@material-ui/icons": "^3.0.2",
     "bootstrap": "^4.3.1",
     "chart.js": "^2.7.3",
     "moment": "^2.24.0",
@@ -12,7 +13,8 @@
     "react-chartjs-2": "^2.7.4",
     "react-dom": "^16.8.1",
     "react-moment": "^0.8.4",
-    "react-scripts": "^2.1.5"
+    "react-scripts": "^2.1.5",
+    "react-spinkit": "^3.0.0"
   },
   "scripts": {
     "start": "cross-env CRYPTOCOMPARE_API_KEY=8088cea6635be8f020cd6673f2595803da16dae057a32b47683e12c337081751 CRYPTOPANIC_API_KEY=2a9a268e94067b0fe98facdea4ed378a568832c3 react-scripts start",

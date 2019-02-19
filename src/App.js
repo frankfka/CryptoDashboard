@@ -8,6 +8,7 @@ import TradingViewTopBar from './market_overview/TradingViewTopBar';
 
 class App extends Component {
 
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -18,6 +19,9 @@ class App extends Component {
   }
 
   render() {
+
+    // Loading animation 
+    var Spinner = require('react-spinkit');  
 
     // Wait for data to load
     if(this.state.data) {
@@ -36,7 +40,7 @@ class App extends Component {
           </h1>
           
           <div className="main_container">
-            <TopTenOverview data={topChartsData.slice(0,10)}/>
+            <TopTenOverview data={topChartsData}/>
           </div>
 
           <div className="main_container">
@@ -49,12 +53,13 @@ class App extends Component {
 
         </div>
       );
+      
     } else {
       return (
-        <div className="loading">
-          <h1>
-            Loading
-          </h1>
+        <div className="loading-animation-container">
+          <div className="loading-animation">
+            <Spinner name='double-bounce' color="orange"/>
+          </div>
         </div>
       )
     }

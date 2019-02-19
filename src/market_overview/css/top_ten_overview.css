@@ -6,3 +6,6 @@
 .table-index-coln {
     width: 0px;
 }
+.table-pagination {
+    display: inline-flex;
+}
