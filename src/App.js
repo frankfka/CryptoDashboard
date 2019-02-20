@@ -5,8 +5,8 @@ import NewsFeed from './market_overview/NewsFeed'
 import ls from 'local-storage'
 import ApiKeyForm from './settings/ApiKeyForm';
 
-const cryptopanic_api_key = "2a9a268e94067b0fe98facdea4ed378a568832c3"
-const cryptocompare_api_key = "8088cea6635be8f020cd6673f2595803da16dae057a32b47683e12c337081751"
+// const cryptopanic_api_key = "2a9a268e94067b0fe98facdea4ed378a568832c3"
+// const cryptocompare_api_key = "8088cea6635be8f020cd6673f2595803da16dae057a32b47683e12c337081751"
 
 class App extends Component {
 
@@ -16,20 +16,23 @@ class App extends Component {
         error: null,
         isLoaded: false,
         data: null,
-        keys: null
+        keys: {
+          "cryptocompare": null,
+          "cryptopanic": null 
+        }
     };
   }
 
-  newKeysEntered = (event, keys) => {
-    ls.set("cryptopanic_key", keys.cryptopanic_key)
-    ls.set("cryptocompare_key", keys.cryptocompare_key)
+  newKeysEntered = (keys) => {
+    ls.set("cryptopanicKey", keys.cryptopanicKey)
+    ls.set("cryptocompareKey", keys.cryptocompareKey)
     window.location.reload()
   };
 
   render() {
 
     // If keys are entered, go straight to dashboard
-    if (this.state.keys) {
+    if (this.state.keys.cryptocompare && this.state.keys.cryptocompare) {
 
       // Loading animation 
       var Spinner = require('react-spinkit');  
@@ -114,20 +117,27 @@ class App extends Component {
 
   }
 
-  // This will grab all the data used to render pages
-  componentDidMount() {
-    
-    let cryptocompareKey = ls.get("cryptocompare_key")
-    let cryptopanicKey = ls.get("cryptopanic_key")
+  // Initialize keys before component mounts
+  componentWillMount() {
+
+    let cryptocompareKey = ls.get("cryptocompareKey")
+    let cryptopanicKey = ls.get("cryptopanicKey")
 
     // If keys exist, then start pulling data
     if(cryptocompareKey && cryptopanicKey) {
-      this.setState({
-        keys: {
-          cryptocompare: cryptocompareKey,
-          cryptopanic: cryptopanicKey
-        }
-      })
+      let keys = {
+        "cryptocompare": cryptocompareKey,
+        "cryptopanic": cryptopanicKey
+      }
+      this.setState({keys})
+  }
+}
+
+  // This will grab all the data used to render pages
+  componentDidMount() {
+
+    // If keys exist, then start pulling data
+    if(this.state.keys.cryptocompare && this.state.keys.cryptocompare) {
       this.fetchData();
       // Continue fetching every 5 min
       setInterval(() => {
