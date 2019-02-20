@@ -12,15 +12,15 @@ class TopTenOverview extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedTicker: null,
       selectedTickerIndex: 0
     };
   }
 
-  tableRowClicked = (e, ticker, index) => {
+  // Method to run when user clicks on a row
+  // This is passed to TopTable
+  tableRowClicked = (e, index) => {
     e.preventDefault()
     this.setState({
-      selectedTicker: ticker,
       selectedTickerIndex: index
     })
   }

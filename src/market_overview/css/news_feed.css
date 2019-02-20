@@ -1,11 +1,12 @@
-.news-feed-item {
-    padding-top: 0.2em;
-}
-.news-feed-main-container {
-    padding-top: 2em;
-    padding-left: 2em;
-    padding-right: 2em;
-}
 .news-feed-main-container h4 {
+    margin-top: 1em;
+    margin-left: 1em;
     margin-bottom: 1em;
+}
+.news-feed-main-container p {
+    margin-bottom: 0;
+}
+.news-item {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
 }

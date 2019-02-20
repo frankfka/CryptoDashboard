@@ -14,17 +14,16 @@ class CoinDetails extends Component {
   }
 
   render() {
-    let ticker = this.props.ticker
 
+    let ticker = this.props.ticker
+    // Only show details if a ticker is defined
     if (ticker) {
       let coinInfo = ticker.CoinInfo
       let displayUSD = ticker.DISPLAY.USD
       return (
-
         <div className="coin-details-wrapper">
           <h2>{coinInfo.FullName}</h2>
           <h4>{coinInfo.Name} | {displayUSD.PRICE}</h4>
-
           <div className="coin-details-section">
             <h3 className="coin-details-chart-heading">Chart</h3>
             <SimplePriceChart data={this.state.chartData}></SimplePriceChart>
@@ -49,13 +48,16 @@ class CoinDetails extends Component {
     }
   }
 
+  // Fetch data on new prop information
   componentDidUpdate(prevProps) {
     // Also checks if price is different (meaning the component should update its display)
-    if ((prevProps.ticker.CoinInfo.Name !== this.props.ticker.CoinInfo.Name) || (prevProps.ticker.DISPLAY.USD.PRICE !== this.props.ticker.DISPLAY.USD.PRICE)) {
+    if ((prevProps.ticker.CoinInfo.Name !== this.props.ticker.CoinInfo.Name) || 
+    (prevProps.ticker.DISPLAY.USD.PRICE !== this.props.ticker.DISPLAY.USD.PRICE)) {
       this.fetchData(this.props.ticker.CoinInfo.Name);
     }
   }
   
+  // Fetch data when component mounts
   componentDidMount() {
     this.fetchData(this.props.ticker.CoinInfo.Name)
   }

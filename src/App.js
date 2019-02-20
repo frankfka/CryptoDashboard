@@ -1,14 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import TopTenOverview from './market_overview/TopTenOverview'
 import LatestActivity from './market_overview/LatestActivity'
 import NewsFeed from './market_overview/NewsFeed'
 
-import { withStyles } from '@material-ui/core/styles';
-import TradingViewTopBar from './market_overview/TradingViewTopBar';
-
 class App extends Component {
 
-  
   constructor(props) {
     super(props);
     this.state = {
@@ -28,13 +24,14 @@ class App extends Component {
 
       let topChartsData = this.state.data
       // Slice to create a new array
+      // Get largest movers
       let sortedBy24HrPrice = topChartsData.slice().sort((a, b) => a.RAW.USD.CHANGEPCT24HOUR < b.RAW.USD.CHANGEPCT24HOUR)
       let topTenGainers = sortedBy24HrPrice.slice(0, 10)
       let topTenLosers = sortedBy24HrPrice.slice(-10).reverse()
 
       return (
         <div className="app">
-          <TradingViewTopBar/>
+        
           <h1>
             Crypto Dashboard
           </h1>
@@ -55,6 +52,8 @@ class App extends Component {
       );
       
     } else {
+
+      // If data isn't loaded, display a loading animation
       return (
         <div className="loading-animation-container">
           <div className="loading-animation">
@@ -97,22 +96,13 @@ class App extends Component {
   // This will grab all the data used to render pages
   componentDidMount() {
     this.fetchData();
+
+    // Continue fetching every 5 min
     setInterval(() => {
       this.fetchData()
-    }, 300000) // Fetch every 5 min
+    }, 300000) 
   }
 
 }
 
-const styles = theme => ({
-  root: {
-    flexGrow: 1,
-  },
-  paper: {
-    padding: theme.spacing.unit * 2,
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
-});
-
-export default withStyles(styles)(App);
+export default App 
