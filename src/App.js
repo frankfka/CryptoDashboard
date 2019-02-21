@@ -51,6 +51,7 @@ class App extends Component {
               <h1>
                 Cryptocurrency Dashboard
               </h1>
+              <p>Reminder to disable CORS to load all modules!</p>
             </div>
             
             <div className="main_container">

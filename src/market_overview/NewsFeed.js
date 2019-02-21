@@ -100,14 +100,7 @@ class CoinDetails extends Component {
   // Pull data for ticker
   fetchData = () => {
 
-    // TODO cross-env doesn't accept more than 1 environment variable
-    fetch(`https://cryptopanic.com/api/v1/posts/?auth_token=${this.props.auth}&public=true`, {
-      headers: {
-        'Access-Control-Allow-Origin':'*'
-      },
-      crossDomain:true,
-      method: 'GET'
-    })
+    fetch(`https://cryptopanic.com/api/v1/posts/?auth_token=${this.props.auth}&public=true`)
       .then(res => res.json())
       .then(
         (result) => {

@@ -35,6 +35,7 @@ class ApiKeyForm extends Component {
 
                 <h4>Please create and enter the following API keys to use the dashboard.</h4>
                 <p>Sign up directly at <a href="https://min-api.cryptocompare.com/pricing" target="_blank" rel="noopener noreferrer">CryptoCompare</a> and <a href="https://cryptopanic.com/developers/api/" target="_blank" rel="noopener noreferrer">CryptoPanic</a> for their free API services. These keys will be stored in your browser &amp; will not be shared.</p>
+                <p>Until a backend has been set up, you will need to <a href="https://addons.mozilla.org/en-US/firefox/addon/cors-everywhere/" target="_blank" rel="noopener noreferrer">disable CORS</a> in your browser for this to work.</p>
 
                 <div>
                 <TextField
