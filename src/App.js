@@ -72,7 +72,7 @@ class App extends Component {
         // If data isn't loaded, display a loading animation
         return (
           <div className="loading-animation-container">
-            <div className="loading-animation">
+            <div className="loading-animation-main">
               <Spinner name='double-bounce' color="orange"/>
             </div>
           </div>

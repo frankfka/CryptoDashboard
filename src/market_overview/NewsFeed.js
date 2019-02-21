@@ -32,6 +32,9 @@ class CoinDetails extends Component {
   };
 
   render() {
+    
+    // Loading animation 
+    var Spinner = require('react-spinkit');  
 
     let data = this.state.data
     let page = this.state.page
@@ -50,7 +53,7 @@ class CoinDetails extends Component {
                   <TableCell>
                     <div className="news-item">
                       <h5><a href={newsItem.url} target="_blank" rel="noopener noreferrer">{newsItem.title}</a></h5>
-                      <p><Moment format="MMM DD YYYY">{newsItem.published_at}</Moment> | {newsItem.source.title}</p>
+                      <p className="accent-text"><Moment format="LT | MMM DD YYYY">{newsItem.published_at}</Moment> | <span className="bolded">{newsItem.source.title}</span></p>
                     </div>   
                   </TableCell>
                 </TableRow>
@@ -74,12 +77,24 @@ class CoinDetails extends Component {
         </div>
       )
     } else {
-      return <h1>Loading</h1>
+      return (
+        <div className="content-box">
+          <div className="loading-animation-content-container">
+            <div className="loading-animation-news">
+              <Spinner name='double-bounce' color="orange"/>
+            </div>
+          </div>
+        </div>
+        )
     }
   }
 
   componentDidMount() {
     this.fetchData()
+    // Continue fetching every 5 min
+    setInterval(() => {
+      this.fetchData()
+    }, 300000) 
   }
 
   // Pull data for ticker

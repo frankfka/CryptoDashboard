@@ -7,6 +7,7 @@ class SimplePriceChart extends Component {
   render() {
 
     const primaryColor = this.props.theme.palette.primary.main;
+    console.log(this.props.timePeriod)
 
     if(this.props.data) {
       const times = this.props.data.map(timePoint =>
@@ -39,7 +40,7 @@ class SimplePriceChart extends Component {
                 display:false
               },
               time: {
-                  unit: 'day'
+                  unit: this.props.timePeriod
               }
           }],
           yAxes: [{

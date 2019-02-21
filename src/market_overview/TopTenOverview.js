@@ -12,7 +12,7 @@ class TopTenOverview extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedTickerIndex: 0
+      selectedTickerIndex: 0,
     };
   }
 

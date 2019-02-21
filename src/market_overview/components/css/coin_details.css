@@ -7,6 +7,9 @@
     border-bottom: 2px lightgray solid;
     margin-bottom: 1em;
 }
+.coin-details-chart-heading {
+    margin-bottom: 0.5em;
+}
 .coin-details-wrapper h2 {
     font-size: 2em;
 }
@@ -32,4 +35,7 @@
 .coin-details-section {
     margin-top: 2em;
     margin-bottom: 1em;
+}
+.timeperiod-select {
+    text-align: center;
 }

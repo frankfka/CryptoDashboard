@@ -1,6 +1,21 @@
 import React, { Component } from 'react';
 import './css/coin_details.css'
 import SimplePriceChart from '../../util/SimplePriceChart'
+import ButtonGroup from 'react-bootstrap/ButtonGroup'
+import Button from  'react-bootstrap/Button'
+
+// For fetching data - consider passing some of these as props
+const NUM_DAYS = 10
+const NUM_MIN = 120
+const NUM_HR = 48
+
+const DAY_URL = `https://min-api.cryptocompare.com/data/histoday?fsym={TICKER}&tsym=USD&limit=${NUM_DAYS}`
+const HOUR_URL = `https://min-api.cryptocompare.com/data/histohour?fsym={TICKER}&tsym=USD&limit=${NUM_HR}`
+const MIN_URL =  `https://min-api.cryptocompare.com/data/histominute?fsym={TICKER}&tsym=USD&limit=${NUM_MIN}`
+
+const TIME_PERIOD_DAY = "day"
+const TIME_PERIOD_HR = "hour"
+const TIME_PERIOD_MIN = "minute"
 
 class CoinDetails extends Component {
 
@@ -9,8 +24,16 @@ class CoinDetails extends Component {
     this.state = {
       error: null,
       chartIsLoaded: false,
-      chartData: null
+      chartData: null,
+      timePeriod: TIME_PERIOD_DAY
     };
+  }
+
+  timePeriodSelected = (e, newTimePeriod) => {
+    e.preventDefault()
+    this.setState({
+      timePeriod: newTimePeriod
+    })
   }
 
   render() {
@@ -26,7 +49,14 @@ class CoinDetails extends Component {
           <h4>{coinInfo.Name} | {displayUSD.PRICE}</h4>
           <div className="coin-details-section">
             <h3 className="coin-details-chart-heading">Chart</h3>
-            <SimplePriceChart data={this.state.chartData}></SimplePriceChart>
+            <div className="timeperiod-select">
+              <ButtonGroup>
+                <Button variant="secondary" onClick={(e) => {this.timePeriodSelected(e, TIME_PERIOD_DAY)}}>Day</Button>
+                <Button variant="secondary" onClick={(e) => {this.timePeriodSelected(e, TIME_PERIOD_HR)}}>Hour</Button>
+                <Button variant="secondary" onClick={(e) => {this.timePeriodSelected(e, TIME_PERIOD_MIN)}}>Minute</Button>
+              </ButtonGroup>
+            </div>
+            <SimplePriceChart data={this.state.chartData} timePeriod={this.state.timePeriod}></SimplePriceChart>
           </div>
 
           <div className="coin-details-section">
@@ -49,10 +79,14 @@ class CoinDetails extends Component {
   }
 
   // Fetch data on new prop information
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     // Also checks if price is different (meaning the component should update its display)
     if ((prevProps.ticker.CoinInfo.Name !== this.props.ticker.CoinInfo.Name) || 
     (prevProps.ticker.DISPLAY.USD.PRICE !== this.props.ticker.DISPLAY.USD.PRICE)) {
+      this.fetchData(this.props.ticker.CoinInfo.Name);
+    }
+    // Check if timeperiod has changed
+    if(prevState.timePeriod !== this.state.timePeriod) {
       this.fetchData(this.props.ticker.CoinInfo.Name);
     }
   }
@@ -65,7 +99,19 @@ class CoinDetails extends Component {
   // Pull data for ticker
   fetchData = (tickerName) => {
 
-    fetch(`https://min-api.cryptocompare.com/data/histoday?fsym=${tickerName}&tsym=USD&limit=10`, {
+    let fetchURL
+    let timePeriod = this.state.timePeriod
+    if(timePeriod === "day") {
+      fetchURL = DAY_URL
+    } else if (timePeriod === "hour") {
+      fetchURL = HOUR_URL
+    } else {
+      // Default to minutes
+      fetchURL = MIN_URL
+    }
+    fetchURL = fetchURL.replace("{TICKER}", tickerName)
+
+    fetch(fetchURL, {
       method: 'GET',
       headers: {
         'authorization': `Apikey ${process.env.CRYPTOCOMPARE_API_KEY}`
@@ -74,6 +120,7 @@ class CoinDetails extends Component {
       .then(res => res.json())
       .then(
         (result) => {
+          console.log(result)
           this.setState({
             chartIsLoaded: true,
             chartData: result.Data

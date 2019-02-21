@@ -10,3 +10,27 @@
     padding-top: 0.5em;
     padding-bottom: 0.5em;
 }
+.loading-animation-content-container {
+    margin: 4em;
+    text-align: center;
+}
+.loading-animation-news {
+    display: inline-block;
+}
+.accent-text {
+    color: #FFA000;
+}
+.bolded {
+    font-weight: 500;
+}
+p {
+    font-size: 1.2em;
+}
+a {
+    font-weight: 400;
+    color: #212121; 
+}
+a:hover {
+    color: #424242;
+    text-decoration: none;
+}
