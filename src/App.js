@@ -5,8 +5,6 @@ import NewsFeed from './market_overview/NewsFeed'
 import ls from 'local-storage'
 import ApiKeyForm from './settings/ApiKeyForm';
 
-// const cryptopanic_api_key = "2a9a268e94067b0fe98facdea4ed378a568832c3"
-// const cryptocompare_api_key = "8088cea6635be8f020cd6673f2595803da16dae057a32b47683e12c337081751"
 
 class App extends Component {
 
@@ -49,9 +47,11 @@ class App extends Component {
         return (
           <div className="app">
           
-            <h1>
-              Crypto Dashboard
-            </h1>
+            <div className="header">
+              <h1>
+                Cryptocurrency Dashboard
+              </h1>
+            </div>
             
             <div className="main_container">
               <TopTenOverview data={topChartsData}/>

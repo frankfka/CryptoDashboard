@@ -5,3 +5,6 @@
 .api-form-submit {
     margin-top: 1em !important;
 }
+.api-key-form-container a {
+    color: #FFA000;
+}

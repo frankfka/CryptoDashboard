@@ -51,9 +51,9 @@ class CoinDetails extends Component {
             <h3 className="coin-details-chart-heading">Chart</h3>
             <div className="timeperiod-select">
               <ButtonGroup>
-                <Button variant="secondary" onClick={(e) => {this.timePeriodSelected(e, TIME_PERIOD_DAY)}}>Day</Button>
-                <Button variant="secondary" onClick={(e) => {this.timePeriodSelected(e, TIME_PERIOD_HR)}}>Hour</Button>
-                <Button variant="secondary" onClick={(e) => {this.timePeriodSelected(e, TIME_PERIOD_MIN)}}>Minute</Button>
+                <Button variant="outline-primary" active={this.state.timePeriod === TIME_PERIOD_DAY} onClick={(e) => {this.timePeriodSelected(e, TIME_PERIOD_DAY)}}>Day</Button>
+                <Button variant="outline-primary" active={this.state.timePeriod === TIME_PERIOD_HR} onClick={(e) => {this.timePeriodSelected(e, TIME_PERIOD_HR)}}>Hour</Button>
+                <Button variant="outline-primary" active={this.state.timePeriod === TIME_PERIOD_MIN} onClick={(e) => {this.timePeriodSelected(e, TIME_PERIOD_MIN)}}>Minute</Button>
               </ButtonGroup>
             </div>
             <SimplePriceChart data={this.state.chartData} timePeriod={this.state.timePeriod}></SimplePriceChart>

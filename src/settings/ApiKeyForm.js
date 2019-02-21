@@ -33,10 +33,13 @@ class ApiKeyForm extends Component {
 
             <form className="api-key-form-container">
 
+                <h4>Please create and enter the following API keys to use the dashboard.</h4>
+                <p>Sign up directly at <a href="https://min-api.cryptocompare.com/pricing" target="_blank" rel="noopener noreferrer">CryptoCompare</a> and <a href="https://cryptopanic.com/developers/api/" target="_blank" rel="noopener noreferrer">CryptoPanic</a> for their free API services. These keys will be stored in your browser &amp; will not be shared.</p>
+
                 <div>
                 <TextField
                 id="cryptocompare"
-                label="Cryptocompare Key"
+                label="CryptoCompare Key"
                 placeholder="Enter Your API Key"
                 className="api-form-field"
                 margin="normal"
@@ -49,7 +52,7 @@ class ApiKeyForm extends Component {
                 <div>
                 <TextField
                 id="cryptopanic"
-                label="Cryptopanic Key"
+                label="CryptoPanic Key"
                 placeholder="Enter Your API Key"
                 className="api-form-field"
                 margin="normal"
