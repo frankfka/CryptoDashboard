@@ -7,7 +7,7 @@ class SimplePriceChart extends Component {
   render() {
 
     const primaryColor = this.props.theme.palette.primary.main;
-
+    
     if(this.props.data) {
       const times = this.props.data.map(timePoint =>
         new Date(timePoint.time*1000)
