@@ -2,7 +2,6 @@ import React from 'react';
 import './index.css';
 import { render } from 'react-dom';
 import App from './App';
-// import Portfolio from './portfolio/Portfolio'
 
 // Themes
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -27,7 +26,6 @@ function RootApp() {
   return (
     <MuiThemeProvider theme={theme}>
     <App/>
-      {/* <Portfolio /> */}
     </MuiThemeProvider>
   );
 }
