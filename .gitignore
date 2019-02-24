@@ -22,3 +22,5 @@ chrome-user-data
 .vscode
 *.swp
 *.swo
+backend/__pycache__
+backend/venv
