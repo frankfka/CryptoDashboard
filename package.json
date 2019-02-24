@@ -8,7 +8,6 @@
     "@material-ui/icons": "^3.0.2",
     "bootstrap": "^4.3.1",
     "chart.js": "^2.7.3",
-    "crypto-js": "^3.1.9-1",
     "gh-pages": "^2.0.1",
     "local-storage": "^1.4.2",
     "moment": "^2.24.0",

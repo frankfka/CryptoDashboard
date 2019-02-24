@@ -1,10 +1,5 @@
 import React, { Component } from 'react'
 
-// Test keys with empty account 
-const binance_key = "5gy302GkdttwGRaR8VCe5ISkbfDYuGinajqzhcaCN9Oe5KWBtfxEknsehYN3PeVU"
-const binance_secret = "E7cx329NgKvWxcKDcqWpocYLKrmBaLBjkqpdHiIq1t51HkIY2onRJqcqUwqYUFDn"
-const binance_base_url = "https://api.binance.com"
-
 class Portfolio extends Component {
 
     constructor(props) {
@@ -25,20 +20,10 @@ class Portfolio extends Component {
     // Pull data from Binance
     fetchData = () => {
 
-    // Create all the signed stuff
-    var CryptoJS = require("crypto-js");
-    let queryString = `timestamp=${(new Date()).getTime()}`  //&recvWindow=100000`
-    let signature = CryptoJS.HmacSHA256(queryString, binance_secret).toString()
-    let completeURL = binance_base_url + `/api/v3/account?${queryString}&signature=${signature}`
+        let url = 'https://cryptodash-frankjia.herokuapp.com/binance/portfolio'
+        url = url + `?key=${this.props.keys.binance.key}&secret=${this.props.keys.binance.secret}`
 
-    fetch(completeURL, {
-        crossDomain:true,
-        method: 'GET',
-        headers: {
-        'X-MBX-APIKEY': binance_key,
-        'Access-Control-Allow-Origin':'*'
-        },
-    })
+        fetch(url)
         .then(res => res.json())
         .then(
         (result) => {
@@ -55,13 +40,11 @@ class Portfolio extends Component {
             });
         }
         )
-
     }
 
     componentDidMount() {
         this.fetchData()
     }
-
 }
 
 export default Portfolio 

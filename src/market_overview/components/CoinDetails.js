@@ -9,9 +9,9 @@ const NUM_DAYS = 10
 const NUM_MIN = 120
 const NUM_HR = 48
 
-const DAY_URL = `https://min-api.cryptocompare.com/data/histoday?fsym={TICKER}&tsym=USD&limit=${NUM_DAYS}`
-const HOUR_URL = `https://min-api.cryptocompare.com/data/histohour?fsym={TICKER}&tsym=USD&limit=${NUM_HR}`
-const MIN_URL =  `https://min-api.cryptocompare.com/data/histominute?fsym={TICKER}&tsym=USD&limit=${NUM_MIN}`
+const DAY_URL = 'https://cryptodash-frankjia.herokuapp.com/cryptocompare/histoday?'
+const HOUR_URL = `https://cryptodash-frankjia.herokuapp.com/cryptocompare/histohour?`
+const MIN_URL =  `https://cryptodash-frankjia.herokuapp.com/cryptocompare/histominute?`
 
 const TIME_PERIOD_DAY = "day"
 const TIME_PERIOD_HR = "hour"
@@ -25,7 +25,8 @@ class CoinDetails extends Component {
       error: null,
       chartIsLoaded: false,
       chartData: null,
-      timePeriod: TIME_PERIOD_DAY
+      timePeriod: TIME_PERIOD_DAY,
+      chartTimePeriod: TIME_PERIOD_DAY // This is changed AFTER we load data to prevent axes from messing up
     };
   }
 
@@ -56,7 +57,7 @@ class CoinDetails extends Component {
                 <Button variant="outline-primary" active={this.state.timePeriod === TIME_PERIOD_MIN} onClick={(e) => {this.timePeriodSelected(e, TIME_PERIOD_MIN)}}>Minute</Button>
               </ButtonGroup>
             </div>
-            <SimplePriceChart data={this.state.chartData} timePeriod={this.state.timePeriod}></SimplePriceChart>
+            <SimplePriceChart data={this.state.chartData} timePeriod={this.state.chartTimePeriod}></SimplePriceChart>
           </div>
 
           <div className="coin-details-section">
@@ -83,47 +84,51 @@ class CoinDetails extends Component {
     // Also checks if price is different (meaning the component should update its display)
     if ((prevProps.ticker.CoinInfo.Name !== this.props.ticker.CoinInfo.Name) || 
     (prevProps.ticker.DISPLAY.USD.PRICE !== this.props.ticker.DISPLAY.USD.PRICE)) {
-      this.fetchData(this.props.ticker.CoinInfo.Name);
+      this.fetchData();
     }
     // Check if timeperiod has changed
     if(prevState.timePeriod !== this.state.timePeriod) {
-      this.fetchData(this.props.ticker.CoinInfo.Name);
+      this.fetchData();
     }
   }
   
   // Fetch data when component mounts
   componentDidMount() {
-    this.fetchData(this.props.ticker.CoinInfo.Name)
+    this.fetchData()
   }
 
   // Pull data for ticker
-  fetchData = (tickerName) => {
+  fetchData = () => {
 
-    let fetchURL
+    let ticker = this.props.ticker.CoinInfo.Name
     let timePeriod = this.state.timePeriod
+    let limit 
+    let url
+
+    // Get appropriate URL depending on time period
     if(timePeriod === "day") {
-      fetchURL = DAY_URL
+      url = DAY_URL
+      limit = NUM_DAYS
     } else if (timePeriod === "hour") {
-      fetchURL = HOUR_URL
+      url = HOUR_URL
+      limit = NUM_HR
     } else {
       // Default to minutes
-      fetchURL = MIN_URL
+      url = MIN_URL
+      limit = NUM_MIN
     }
-    fetchURL = fetchURL.replace("{TICKER}", tickerName)
+    // Add params
+    url = url + `ticker=${ticker}&limit=${limit}&key=${this.props.auth}`
 
-    fetch(fetchURL, {
-      method: 'GET',
-      headers: {
-        'authorization': `Apikey ${process.env.CRYPTOCOMPARE_API_KEY}`
-        },
-    })
+    fetch(url)
       .then(res => res.json())
       .then(
         (result) => {
           console.log(result)
           this.setState({
             chartIsLoaded: true,
-            chartData: result.Data
+            chartData: result.Data,
+            chartTimePeriod: timePeriod
           });
         },
         (error) => {

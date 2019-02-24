@@ -92,15 +92,19 @@ class CoinDetails extends Component {
   componentDidMount() {
     this.fetchData()
     // Continue fetching every 5 min
-    setInterval(() => {
+    this.fetchInterval = setInterval(() => {
       this.fetchData()
     }, 300000) 
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.fetchInterval)
   }
 
   // Pull data for ticker
   fetchData = () => {
 
-    fetch(`https://cryptopanic.com/api/v1/posts/?auth_token=${this.props.auth}&public=true`)
+    fetch(`https://cryptodash-frankjia.herokuapp.com/cryptopanic/news?key=${this.props.auth}`)
       .then(res => res.json())
       .then(
         (result) => {

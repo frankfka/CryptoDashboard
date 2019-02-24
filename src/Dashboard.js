@@ -44,11 +44,12 @@ class Dashboard extends Component {
 
     const { open } = this.state;
     const selection = this.state.selection
+    // This selects the page to show from the current navigation state
     let pageToShow
     if (selection === MKT_OVERVIEW) {
         pageToShow = <MarketOverview keys={this.props.keys}/>
     } else if (selection === PORTFOLIO) {
-        pageToShow = <Portfolio/>
+        pageToShow = <Portfolio keys={this.props.keys}/>
     }
 
     return (

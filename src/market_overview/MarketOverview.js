@@ -38,11 +38,10 @@ class MarketOverview extends Component {
                     <h1>
                     Market Overview
                     </h1>
-                    <p>Reminder to disable CORS to load all modules!</p>
                 </div>
                 
                 <div className="main_container">
-                    <TopTenOverview data={topChartsData}/>
+                    <TopTenOverview data={topChartsData} auth={this.props.keys.cryptocompare}/>
                 </div>
 
                 <div className="main_container">
@@ -71,15 +70,13 @@ class MarketOverview extends Component {
 
     
 
-    // Pull data (only from cryptocompare for now)
+    // Pull data from backend proxy for Cryptocompare
     fetchData = () => {
 
-    fetch(`https://min-api.cryptocompare.com/data/top/mktcapfull?limit=100&tsym=USD`, {
-        method: 'GET',
-        headers: {
-        'authorization': `Apikey ${this.props.keys.cryptocompare}`
-        },
-    })
+        let url = 'https://cryptodash-frankjia.herokuapp.com/cryptocompare/top?'
+        url = url + `key=${this.props.keys.cryptocompare}`
+
+        fetch(url)
         .then(res => res.json())
         .then(
         (result) => {
@@ -104,10 +101,14 @@ class MarketOverview extends Component {
 
         this.fetchData();
         // Continue fetching every 5 min
-        setInterval(() => {
+        this.fetchInterval = setInterval(() => {
         this.fetchData()
         }, 300000) 
     
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.fetchInterval)
     }
 
 }

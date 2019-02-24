@@ -41,6 +41,7 @@ class TopTenOverview extends Component {
           <Col xs="4">
             <CoinDetails
               ticker={(this.props.data ? this.props.data[this.state.selectedTickerIndex] : null)}
+              auth={this.props.auth}
             />
           </Col>
         </Row>

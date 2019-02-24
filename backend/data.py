@@ -74,7 +74,6 @@ def binance_portfolio():
     key = get_input_param('key')
     secret = get_input_param('secret')
     curr_time_unix = str(int(time.time()*1000))
-    print(curr_time_unix)
     query_string = 'timestamp=' + curr_time_unix
     hmac_string = hmac.new(bytes(secret, 'latin-1'), msg=bytes(query_string, 'latin-1'), digestmod=hashlib.sha256).hexdigest()
     headers = {'X-MBX-APIKEY': key}
