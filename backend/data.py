@@ -35,6 +35,10 @@ def get_cryptocompare_histo_req(time_range):
     ticker = flask_req.args.get('ticker')
     return get_cryptocompare_req(url, {'fsym': ticker, 'tsym': 'USD', 'limit': num_datapoints})
 
+@app.route('/')
+def test():
+    return 'Hello world!'
+
 @app.route('/cryptocompare/top')
 def cryptocompare_all():
     cryptocompare_all_url = "https://min-api.cryptocompare.com/data/top/mktcapfull"
@@ -76,3 +80,6 @@ def binance_portfolio():
     headers = {'X-MBX-APIKEY': key}
     resp = requests.get(url, headers=headers, params={'timestamp': curr_time_unix, 'signature': hmac_string})
     return resp.text, resp.status_code
+
+if __name__ == '__main__':
+    app.run()
