@@ -1,20 +1,32 @@
 from flask import Flask
 from flask import request as flask_req
+from flask import jsonify
 from flask_cors import CORS
 import requests
 import hmac
 import hashlib
 import time
 
+# Library for interacting with exchanges
+import ccxt
+
+# Flask & CORS init
 app = Flask(__name__)
 cors = CORS(app)
 
+# Static variables
 TIME_PERIOD_DAY = 'day'
 TIME_PERIOD_HR = "hour"
 TIME_PERIOD_MIN = "minute"
 
+'''
+Helper functions
+'''
 def get_input_param(param_key):
     return flask_req.args.get(param_key).strip() #TODO validation?
+
+def get_input_param_list(param_key):
+    return flask_req.args.getlist(param_key)
 
 def get_cryptocompare_req(url, payload):
     # Get key from incoming request
@@ -35,31 +47,56 @@ def get_cryptocompare_histo_req(time_range):
     ticker = flask_req.args.get('ticker')
     return get_cryptocompare_req(url, {'fsym': ticker, 'tsym': 'USD', 'limit': num_datapoints})
 
+'''Testing Endpoint'''
 @app.route('/')
 def test():
     return 'Hello world!'
 
+'''
+Gets top 100 tickers.
+    key: Cryptocompare API Key
+'''
 @app.route('/cryptocompare/top')
 def cryptocompare_all():
     cryptocompare_all_url = "https://min-api.cryptocompare.com/data/top/mktcapfull"
     resp = get_cryptocompare_req(cryptocompare_all_url, {'limit': 100, 'tsym': 'USD'})
     return resp.text, resp.status_code
 
+'''
+Gets historical price data.
+    key: Cryptocompare API Key
+    ticker: ticker to retrieve data for
+    limit: # of data points to get 
+'''
 @app.route('/cryptocompare/histoday')
 def cryptocompare_histoday():
     resp = get_cryptocompare_histo_req(TIME_PERIOD_DAY)
     return resp.text, resp.status_code
-
 @app.route('/cryptocompare/histohour')
 def cryptocompare_histohour():
     resp = get_cryptocompare_histo_req(TIME_PERIOD_HR)
     return resp.text, resp.status_code
-
 @app.route('/cryptocompare/histominute')
 def cryptocompare_histominute():
     resp = get_cryptocompare_histo_req(TIME_PERIOD_MIN)
     return resp.text, resp.status_code
 
+'''
+Gets current prices in BTC and USD for a list of tickers.
+    key: Cryptocompare API Key
+    tickers: tickers to retrieve data for (should be less than 300)
+'''
+@app.route('/cryptocompare/prices')
+def cryptocompare_prices():
+    cryptocompare_prices_url = "https://min-api.cryptocompare.com/data/pricemulti"
+    tickers = get_input_param_list('tickers')
+    resp = get_cryptocompare_req(cryptocompare_prices_url, {'tsyms': ['USD', 'BTC'], 'fsyms': tickers})
+    return resp.text, resp.status_code
+
+'''
+Gets 20 latest news articles from cryptopanic
+    key: Cryptopanic API Key
+'''
 @app.route('/cryptopanic/news')
 def cryptopanic_news():
     #TODO loop through the param page=2 , 3, etc to get more posts
@@ -68,17 +105,28 @@ def cryptopanic_news():
     resp = requests.get(url, params={'auth_token': key, 'public': 'true'})
     return resp.text, resp.status_code
 
+'''
+Gets list of (non-zero) total balances in Binance portfolio
+    key: Binance API Key
+    secret: Binance API secret
+'''
 @app.route('/binance/portfolio')
 def binance_portfolio():
-    url = 'https://api.binance.com/api/v3/account'
     key = get_input_param('key')
     secret = get_input_param('secret')
-    curr_time_unix = str(int(time.time()*1000))
-    query_string = 'timestamp=' + curr_time_unix
-    hmac_string = hmac.new(bytes(secret, 'latin-1'), msg=bytes(query_string, 'latin-1'), digestmod=hashlib.sha256).hexdigest()
-    headers = {'X-MBX-APIKEY': key}
-    resp = requests.get(url, headers=headers, params={'timestamp': curr_time_unix, 'signature': hmac_string})
-    return resp.text, resp.status_code
+    # Get total balances. This returns a dictionary with keys as tickers and values as amounts
+    balances_dict = ccxt.binance({
+        'apiKey': key,
+        'secret': secret
+    }).fetch_balance()['total']
+    # This will be returned as JSON, list of items each with a ticker and an amount
+    balances_list = [] 
+    for ticker, amount in balances_dict.items():
+        if amount > 0:
+            balances_list.append({'ticker': ticker, 'amount': amount})
+    return jsonify(balances_list)
 
+
+# Required for Flask
 if __name__ == '__main__':
     app.run()
