@@ -11,13 +11,27 @@ import TablePaginationActionsWrapped from '../../util/TablePaginationActions'
 import SortTableHeader from '../../util/SortTableHeader'
 
 const ROWS_PER_PAGE = 10
+const ASC = 'asc'
+const DESC = 'desc'
+const TICKER_COL_ID = 'ticker'
+const BALANCE_COL_ID = 'balance'
+const BTC_VAL_COL_ID = 'val_btc'
+const USD_VAL_COL_ID = 'val_usd'
+// Define the headers of the table
+const TABLE_HEADERS = [
+    { id: TICKER_COL_ID, label: 'Ticker'},
+    { id: BALANCE_COL_ID, label: 'Balance'},
+    { id: BTC_VAL_COL_ID, label: 'Value (BTC)'},
+    { id: USD_VAL_COL_ID, label: 'Value (USD)'},
+]
+const NUM_COLS = TABLE_HEADERS.count
 
 class Holdings extends Component {
 
     state = {
         page: 0,
-        orderBy: 'balance',
-        order: 'desc',
+        orderBy: BALANCE_COL_ID,
+        order: DESC,
     };
 
     // This gets called by the pagination class (passed as a prop)
@@ -28,58 +42,52 @@ class Holdings extends Component {
     // This gets called by the sorting table header (passed as a prop)
     handleRequestSort = (event, property) => {
         const orderBy = property;
-        let order = 'desc';
-        if (this.state.orderBy === property && this.state.order === 'desc') {
-            order = 'asc';
+        let order = DESC;
+        if (this.state.orderBy === property && this.state.order === DESC) {
+            order = ASC;
         }
         // Also reset page
         this.setState({ order, orderBy, page:0 });
     };
 
-    // Sort method
+    // Sort method defined for each column
     getSortingFunction = (orderBy) => {
-        if (orderBy === 'ticker') {
-            return function(a,b) {
-                if (a.asset > b.asset) return 1
-                else return -1
-            }
-        } else if (orderBy === 'balance') {
+        if (orderBy) {
+            // For numerical columns, use a numerical sort
             return function(a,b) {
                 if (parseFloat(a.free) > parseFloat(b.free)) return 1
                 else return -1 
+            }
+        } else {
+            // For ticker, use the standard string sort method
+            return function(a,b) {
+                if (a > b) return 1
+                else return -1
             }
         }
     }
 
     render() {
 
-        let data = this.props.data
+        let holdings = this.props.holdings
+        let conversions = this.props.conversions
 
         // Only load table if data is available
-        if (data) {
+        if (holdings && conversions) {
             // Get current state
             const { order, orderBy, page } = this.state;
-            // Binance returns zero values within the data
-            let holdings = data.balances.filter((currency) => {
-                return parseFloat(currency.free) !== 0.0
-            })
-            // Sort 
+
+            // Get so
             holdings = holdings.sort(this.getSortingFunction(orderBy))
             if (order === 'desc') {
                 holdings = holdings.reverse() 
             }
             // # of empty rows to populate
             const numEmptyRows = ROWS_PER_PAGE - Math.min(ROWS_PER_PAGE, holdings.length - page * ROWS_PER_PAGE)
-            // Define the headers of the table
-            const tableHeaders = [
-                { id: 'ticker', numeric: false, label: 'Ticker' },
-                { id: 'balance', numeric: true, label: 'Balance' },
-            ]
-            const numCols = tableHeaders.count
             return (
                 <Table className="holdings-table">
                     <SortTableHeader
-                        headers={tableHeaders}
+                        headers={TABLE_HEADERS}
                         order={order}
                         orderBy={orderBy}
                         onRequestSort={this.handleRequestSort}
@@ -98,14 +106,14 @@ class Holdings extends Component {
                         {/* If empty rows needed, populate them */}
                         {numEmptyRows > 0 && (
                             <TableRow style={{ height: 49 * numEmptyRows }}>
-                                <TableCell colSpan={numCols} />
+                                <TableCell colSpan={NUM_COLS} />
                             </TableRow>
                         )}
                     </TableBody>
                     <TableFooter>
                         <TableRow>
                             <TablePagination
-                                colSpan={numCols}
+                                colSpan={NUM_COLS}
                                 count={holdings.length}
                                 rowsPerPageOptions={[ROWS_PER_PAGE]}
                                 rowsPerPage={ROWS_PER_PAGE}
@@ -120,6 +128,7 @@ class Holdings extends Component {
             )
         } else {
             // If no data loaded, return an empty div
+            // TODO add loading animation here instead
             return null
         }
     }

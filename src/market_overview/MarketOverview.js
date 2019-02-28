@@ -73,8 +73,8 @@ class MarketOverview extends Component {
     // Pull data from backend proxy for Cryptocompare
     fetchData = () => {
 
-        let url = 'https://cryptodash-frankjia.herokuapp.com/cryptocompare/top?'
-        url = url + `key=${this.props.keys.cryptocompare}`
+        let url = 'https://cryptodash-frankjia.herokuapp.com/cryptocompare/top'
+        url = url + `?key=${this.props.keys.cryptocompare}`
 
         fetch(url)
         .then(res => res.json())

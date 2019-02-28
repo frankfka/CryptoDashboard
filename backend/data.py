@@ -119,12 +119,9 @@ def binance_portfolio():
         'apiKey': key,
         'secret': secret
     }).fetch_balance()['total']
-    # This will be returned as JSON, list of items each with a ticker and an amount
-    balances_list = [] 
-    for ticker, amount in balances_dict.items():
-        if amount > 0:
-            balances_list.append({'ticker': ticker, 'amount': amount})
-    return jsonify(balances_list)
+    # Clean 0 balances
+    clean_balances_dict = {ticker: amount for ticker, amount in balances_dict.items() if amount > 0}
+    return jsonify(clean_balances_dict)
 
 
 # Required for Flask
