@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import Holdings from './components/Holdings'
+
 class Portfolio extends Component {
 
     constructor(props) {
@@ -12,8 +14,11 @@ class Portfolio extends Component {
       }
 
     render() {
+        console.log(this.state.data)
         return (
-            <div></div>
+            <div>
+                <Holdings data={this.state.data}/>
+            </div>
         )
     }
 
@@ -30,7 +35,7 @@ class Portfolio extends Component {
             console.log(result)
             this.setState({
             isLoaded: true,
-            data: result.Data
+            data: result
             });
         },
         (error) => {
