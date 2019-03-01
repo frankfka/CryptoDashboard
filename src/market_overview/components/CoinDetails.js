@@ -124,6 +124,7 @@ class CoinDetails extends Component {
       .then(res => res.json())
       .then(
         (result) => {
+          console.log(`Details for Ticker ${ticker}`)
           console.log(result)
           this.setState({
             chartIsLoaded: true,

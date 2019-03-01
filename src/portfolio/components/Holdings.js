@@ -10,6 +10,8 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TablePaginationActionsWrapped from '../../util/TablePaginationActions'
 import SortTableHeader from '../../util/SortTableHeader'
 
+import Spinner from 'react-spinkit'
+
 const ROWS_PER_PAGE = 10
 const ASC = 'asc'
 const DESC = 'desc'
@@ -19,10 +21,10 @@ const BTC_VAL_COL_ID = 'val_btc'
 const USD_VAL_COL_ID = 'val_usd'
 // Define the headers of the table
 const TABLE_HEADERS = [
-    { id: TICKER_COL_ID, label: 'Ticker'},
-    { id: BALANCE_COL_ID, label: 'Balance'},
-    { id: BTC_VAL_COL_ID, label: 'Value (BTC)'},
-    { id: USD_VAL_COL_ID, label: 'Value (USD)'},
+    { id: TICKER_COL_ID, label: 'Ticker' },
+    { id: BALANCE_COL_ID, label: 'Balance' },
+    { id: BTC_VAL_COL_ID, label: 'Value (BTC)' },
+    { id: USD_VAL_COL_ID, label: 'Value (USD)' },
 ]
 const NUM_COLS = TABLE_HEADERS.count
 
@@ -30,8 +32,8 @@ class Holdings extends Component {
 
     state = {
         page: 0,
-        orderBy: BALANCE_COL_ID,
-        order: DESC,
+        orderBy: TICKER_COL_ID,
+        order: ASC,
     };
 
     // This gets called by the pagination class (passed as a prop)
@@ -47,21 +49,30 @@ class Holdings extends Component {
             order = ASC;
         }
         // Also reset page
-        this.setState({ order, orderBy, page:0 });
+        this.setState({ order, orderBy, page: 0 });
     };
 
     // Sort method defined for each column
     getSortingFunction = (orderBy) => {
-        if (orderBy) {
-            // For numerical columns, use a numerical sort
-            return function(a,b) {
-                if (parseFloat(a.free) > parseFloat(b.free)) return 1
-                else return -1 
+        if (orderBy === BALANCE_COL_ID) {
+            return (a, b) => {
+                if (a.amount > b.amount) return 1
+                else return -1
             }
-        } else {
+        } else if (orderBy === TICKER_COL_ID) {
             // For ticker, use the standard string sort method
-            return function(a,b) {
-                if (a > b) return 1
+            return (a, b) => {
+                if (a.ticker.toLowerCase() > b.ticker.toLowerCase()) return 1
+                else return -1
+            }
+        } else if (orderBy === BTC_VAL_COL_ID) {
+            return (a, b) => {
+                if (a.btcVal > b.btcVal) return 1
+                else return -1
+            }
+        } else if (orderBy === USD_VAL_COL_ID) {
+            return (a, b) => {
+                if (a.usdVal > b.usdVal) return 1
                 else return -1
             }
         }
@@ -70,22 +81,25 @@ class Holdings extends Component {
     render() {
 
         let holdings = this.props.holdings
-        let conversions = this.props.conversions
 
         // Only load table if data is available
-        if (holdings && conversions) {
+        if (holdings) {
             // Get current state
             const { order, orderBy, page } = this.state;
 
-            // Get so
+            // Get sorting function & just reverse sorted array if we want it in desc order
             holdings = holdings.sort(this.getSortingFunction(orderBy))
             if (order === 'desc') {
-                holdings = holdings.reverse() 
+                holdings = holdings.reverse()
             }
             // # of empty rows to populate
             const numEmptyRows = ROWS_PER_PAGE - Math.min(ROWS_PER_PAGE, holdings.length - page * ROWS_PER_PAGE)
+
+            // Views to return
             return (
                 <Table className="holdings-table">
+
+                    {/* Header with sort function */}
                     <SortTableHeader
                         headers={TABLE_HEADERS}
                         order={order}
@@ -93,12 +107,18 @@ class Holdings extends Component {
                         onRequestSort={this.handleRequestSort}
                     />
 
+                    {/* Rows populated by each holding */}
                     <TableBody>
-                        {holdings.slice(page * ROWS_PER_PAGE, (page + 1) * ROWS_PER_PAGE).map((currency, index) => (
+                        {holdings.slice(page * ROWS_PER_PAGE, (page + 1) * ROWS_PER_PAGE).map((holding, index) => (
 
                             <TableRow key={index}>
-                                <TableCell component="th" scope="row">{currency.asset}</TableCell>
-                                <TableCell>{currency.free}</TableCell>
+                                <TableCell>{holding.ticker}</TableCell>
+                                <TableCell>{holding.amount.toFixed(4)}</TableCell>
+                                <TableCell>
+                                    {holding.btcVal > Math.pow(10, -5) ? 
+                                    holding.btcVal.toFixed(5) : `${(holding.btcVal * Math.pow(10, 8)).toFixed(0)} sats` }
+                                </TableCell>
+                                <TableCell>{`$ ${holding.usdVal.toFixed(2)}`}</TableCell>
                             </TableRow>
 
                         ))}
@@ -110,6 +130,8 @@ class Holdings extends Component {
                             </TableRow>
                         )}
                     </TableBody>
+
+                    {/* The Footer has Pagination */}
                     <TableFooter>
                         <TableRow>
                             <TablePagination
@@ -127,9 +149,13 @@ class Holdings extends Component {
 
             )
         } else {
-            // If no data loaded, return an empty div
-            // TODO add loading animation here instead
-            return null
+            return (
+                <div className="loading-animation-container">
+                <div className="loading-animation-main">
+                    <Spinner name='double-bounce' color="orange"/>
+                </div>
+                </div>
+            )
         }
     }
 }

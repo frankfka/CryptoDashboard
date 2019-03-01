@@ -112,6 +112,7 @@ class CoinDetails extends Component {
             isLoaded: true,
             data: result.results
           });
+          console.log("Cryptopanic Newsfeed")
           console.log(result.results)
         },
         (error) => {

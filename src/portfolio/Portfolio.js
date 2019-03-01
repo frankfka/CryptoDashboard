@@ -9,8 +9,7 @@ class Portfolio extends Component {
         this.state = {
             error: null,
             isLoaded: false,
-            binanceBalances: null,
-            completeBinanceHoldings: null
+            binanceHoldings: null
         }
     }
 
@@ -20,8 +19,7 @@ class Portfolio extends Component {
     render() {
         return (
             <div>
-                {/* <Holdings holdings={this.state.holdings}
-                          conversions={this.state.conversions}/> */}
+                <Holdings holdings={this.state.binanceHoldings}/>
             </div>
         )
     }
@@ -59,7 +57,6 @@ class Portfolio extends Component {
                                 (result) => {
 
                                     console.log("Fetched price conversions")
-                                    console.log(balances)
                                     console.log(result)
 
                                     // Construct complete ticker objects
@@ -67,10 +64,10 @@ class Portfolio extends Component {
                                     for(var ticker in balances) {
                                         const balance = balances[ticker]
                                         const conversion = result[ticker] // This might not exist if Cryptocompare has no data on this
-                                        let btcConversion, usdConversion = 0 
+                                        let btcConversion = 0, usdConversion = 0 
                                         if (conversion) {
-                                            btcConversion = conversion.BTC
-                                            usdConversion = conversion.USD
+                                            btcConversion = conversion.BTC ? conversion.BTC : 0 
+                                            usdConversion = conversion.USD ? conversion.USD : 0 
                                         }
                                         holdings.push({
                                             'ticker': ticker,
@@ -85,7 +82,7 @@ class Portfolio extends Component {
 
                                     this.setState({
                                         isLoaded: true,
-                                        completeBinanceHoldings: result
+                                        binanceHoldings: holdings
                                     });
                                 },
                                 (error) => {
