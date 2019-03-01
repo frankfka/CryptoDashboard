@@ -89,7 +89,8 @@ Gets current prices in BTC and USD for a list of tickers.
 @app.route('/cryptocompare/prices')
 def cryptocompare_prices():
     cryptocompare_prices_url = "https://min-api.cryptocompare.com/data/pricemulti"
-    resp = get_cryptocompare_req(cryptocompare_prices_url)
+    tickers = get_input_param_list('tickers')
+    resp = get_cryptocompare_req(cryptocompare_prices_url, {'tsyms': ['USD', 'BTC'], 'fsyms': tickers})
     return resp.text, resp.status_code
 
 '''
@@ -100,18 +101,6 @@ Gets latest news articles from Cryptocompare
 def cryptocompare_news():
     cryptocompare_news_url = "https://min-api.cryptocompare.com/data/v2/news/"
     resp = get_cryptocompare_req(cryptocompare_news_url)
-    return resp.text, resp.status_code
-
-'''
-Gets 20 latest news articles from cryptopanic
-    key: Cryptopanic API Key
-'''
-@app.route('/cryptopanic/news')
-def cryptopanic_news():
-    #TODO loop through the param page=2 , 3, etc to get more posts
-    url = 'https://cryptopanic.com/api/v1/posts/'
-    key = get_input_param('key')
-    resp = requests.get(url, params={'auth_token': key, 'public': 'true'})
     return resp.text, resp.status_code
 
 '''

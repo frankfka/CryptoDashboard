@@ -10,7 +10,6 @@ class ApiKeyForm extends Component {
     // TODO we can prepopulate from current local storage
 
     state = {
-        "cryptopanicKey": null,
         "cryptocompareKey": null,
         "binanceKey": null,
         "binanceSecret": null
@@ -27,8 +26,7 @@ class ApiKeyForm extends Component {
     onFormSubmission = (event, parentCallback) => {
         // TODO we need more validation
         event.preventDefault()
-        if (this.state.cryptopanicKey && this.state.cryptocompareKey
-            && this.state.binanceKey && this.state.binanceSecret) {
+        if (this.state.cryptocompareKey && this.state.binanceKey && this.state.binanceSecret) {
             parentCallback(this.state)
         }
     };
@@ -39,8 +37,7 @@ class ApiKeyForm extends Component {
             <form className="api-key-form-container">
 
                 <h4>Please create and enter the following API keys to use the dashboard.</h4>
-                <p>Sign up directly at <a href="https://min-api.cryptocompare.com/pricing" target="_blank" rel="noopener noreferrer">CryptoCompare</a> 
-                and <a href="https://cryptopanic.com/developers/api/" target="_blank" rel="noopener noreferrer">CryptoPanic</a> for their free API 
+                <p>Sign up directly at <a href="https://min-api.cryptocompare.com/pricing" target="_blank" rel="noopener noreferrer">CryptoCompare</a> for their free API 
                 services. These keys will be stored in your browser &amp; will not be shared. Binance READ-ONLY 
                 key &amp; secret are also required for portfolio analysis</p>
 
@@ -53,19 +50,6 @@ class ApiKeyForm extends Component {
                 margin="normal"
                 variant="outlined"
                 onChange={(e) => {this.onFieldChanged(e, "cryptocompareKey")}}
-                />
-                </div>
-
-                
-                <div>
-                <TextField
-                id="cryptopanic"
-                label="CryptoPanic Key"
-                placeholder="Enter Your API Key"
-                className="api-form-field"
-                margin="normal"
-                variant="outlined"
-                onChange={(e) => {this.onFieldChanged(e, "cryptopanicKey")}}
                 />
                 </div>
 

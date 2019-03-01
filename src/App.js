@@ -13,14 +13,12 @@ class App extends Component {
         isLoaded: false,
         keys: {
           "cryptocompare": null,
-          "cryptopanic": null,
           "binance": null,
         }
     };
   }
 
   newKeysEntered = (keys) => {
-    ls.set("cryptopanicKey", keys.cryptopanicKey)
     ls.set("cryptocompareKey", keys.cryptocompareKey)
     ls.set("binanceKey", keys.binanceKey)
     ls.set("binanceSecret", keys.binanceSecret)
@@ -30,8 +28,7 @@ class App extends Component {
   render() {
 
     // If keys are entered, go straight to dashboard
-    if (this.state.keys.cryptocompare && this.state.keys.cryptocompare
-        && this.state.keys.binance) {
+    if (this.state.keys.cryptocompare && this.state.keys.binance) {
       // Load main app
       return (
         <Dashboard keys={this.state.keys}/>
@@ -51,15 +48,13 @@ class App extends Component {
   componentWillMount() {
 
     let cryptocompareKey = ls.get("cryptocompareKey")
-    let cryptopanicKey = ls.get("cryptopanicKey")
     let binanceKey = ls.get("binanceKey")
     let binanceSecret = ls.get("binanceSecret")
 
     // If keys exist, then start pulling data
-    if(cryptocompareKey && cryptopanicKey && binanceKey && binanceSecret) {
+    if(cryptocompareKey && binanceKey && binanceSecret) {
       let keys = {
         "cryptocompare": cryptocompareKey,
-        "cryptopanic": cryptopanicKey,
         "binance": {"key": binanceKey, "secret": binanceSecret}
       }
       this.setState({keys})

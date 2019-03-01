@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import Holdings from './components/Holdings'
+import Spinner from 'react-spinkit'
 
 class Portfolio extends Component {
 
@@ -17,19 +18,26 @@ class Portfolio extends Component {
     * Render method
     */
     render() {
-        return (
-            <div>
-
+        if (this.state.binanceHoldings) {
+            return (
                 <div>
-                    <h1>{`Total Value: $ ${(this.state.binanceHoldings ? this.state.binanceHoldings.reduce((total, holding) => total + holding.usdVal) : 0).toFixed(2)}`}</h1>
+                    <div className="centered">
+                        <h1>{`Total Value: $ ${this.getTotalPortfolioVal().toFixed(2)}`}</h1>
+                    </div>
+                    <div>
+                        <Holdings holdings={this.state.binanceHoldings} />
+                    </div>
                 </div>
-                <div>
-                    <Holdings holdings={this.state.binanceHoldings} />
+            )
+        } else {
+            return (
+                <div className="loading-animation-container">
+                <div className="loading-animation-main">
+                    <Spinner name='double-bounce' color="orange"/>
                 </div>
-
-
-            </div>
-        )
+                </div>
+            )
+        }
     }
 
     /**
@@ -114,6 +122,13 @@ class Portfolio extends Component {
     componentDidMount() {
         this.fetchData()
     }
+
+    // Helper function to get value of total portfolio
+    getTotalPortfolioVal = () => {
+        return this.state.binanceHoldings ?
+        this.state.binanceHoldings.reduce((total, holding) => total + holding.usdVal, 0) : 0
+    }
+
 }
 
 export default Portfolio 

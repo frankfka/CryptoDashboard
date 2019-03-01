@@ -49,3 +49,6 @@ body {
 .appbar-title {
   margin-left: 1em;
 }
+.centered {
+  text-align: center
+}

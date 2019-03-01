@@ -10,8 +10,6 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TablePaginationActionsWrapped from '../../util/TablePaginationActions'
 import SortTableHeader from '../../util/SortTableHeader'
 
-import Spinner from 'react-spinkit'
-
 const ROWS_PER_PAGE = 10
 const ASC = 'asc'
 const DESC = 'desc'
@@ -149,13 +147,7 @@ class Holdings extends Component {
 
             )
         } else {
-            return (
-                <div className="loading-animation-container">
-                <div className="loading-animation-main">
-                    <Spinner name='double-bounce' color="orange"/>
-                </div>
-                </div>
-            )
+            return null 
         }
     }
 }
