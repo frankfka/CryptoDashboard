@@ -1,15 +1,15 @@
 {
   "main.css": "/CryptoDashboard/static/css/main.d9c3069d.chunk.css",
-  "main.js": "/CryptoDashboard/static/js/main.ee04c9a1.chunk.js",
-  "main.js.map": "/CryptoDashboard/static/js/main.ee04c9a1.chunk.js.map",
+  "main.js": "/CryptoDashboard/static/js/main.ec0da7cf.chunk.js",
+  "main.js.map": "/CryptoDashboard/static/js/main.ec0da7cf.chunk.js.map",
   "runtime~main.js": "/CryptoDashboard/static/js/runtime~main.ee2bbdde.js",
   "runtime~main.js.map": "/CryptoDashboard/static/js/runtime~main.ee2bbdde.js.map",
-  "static/css/2.12959495.chunk.css": "/CryptoDashboard/static/css/2.12959495.chunk.css",
-  "static/js/2.a6643273.chunk.js": "/CryptoDashboard/static/js/2.a6643273.chunk.js",
-  "static/js/2.a6643273.chunk.js.map": "/CryptoDashboard/static/js/2.a6643273.chunk.js.map",
+  "static/css/2.7d72fc80.chunk.css": "/CryptoDashboard/static/css/2.7d72fc80.chunk.css",
+  "static/js/2.de063bf0.chunk.js": "/CryptoDashboard/static/js/2.de063bf0.chunk.js",
+  "static/js/2.de063bf0.chunk.js.map": "/CryptoDashboard/static/js/2.de063bf0.chunk.js.map",
   "index.html": "/CryptoDashboard/index.html",
-  "precache-manifest.7c4ee07079417916bf23468c71b7e88b.js": "/CryptoDashboard/precache-manifest.7c4ee07079417916bf23468c71b7e88b.js",
+  "precache-manifest.3376295ca1481867afb1e1c8b890a97b.js": "/CryptoDashboard/precache-manifest.3376295ca1481867afb1e1c8b890a97b.js",
   "service-worker.js": "/CryptoDashboard/service-worker.js",
-  "static/css/2.12959495.chunk.css.map": "/CryptoDashboard/static/css/2.12959495.chunk.css.map",
+  "static/css/2.7d72fc80.chunk.css.map": "/CryptoDashboard/static/css/2.7d72fc80.chunk.css.map",
   "static/css/main.d9c3069d.chunk.css.map": "/CryptoDashboard/static/css/main.d9c3069d.chunk.css.map"
 }
