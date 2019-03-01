@@ -49,7 +49,7 @@ class MarketOverview extends Component {
                 </div>
 
                 <div className="main_container">
-                    <NewsFeed auth={this.props.keys.cryptopanic}/>
+                    <NewsFeed auth={this.props.keys.cryptocompare}/>
                 </div>
 
             </div>

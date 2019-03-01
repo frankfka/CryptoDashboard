@@ -28,7 +28,7 @@ def get_input_param(param_key):
 def get_input_param_list(param_key):
     return flask_req.args.getlist(param_key)
 
-def get_cryptocompare_req(url, payload):
+def get_cryptocompare_req(url, payload=None):
     # Get key from incoming request
     key = get_input_param('key')
     headers = {'authorization': 'Apikey ' + key}
@@ -89,8 +89,17 @@ Gets current prices in BTC and USD for a list of tickers.
 @app.route('/cryptocompare/prices')
 def cryptocompare_prices():
     cryptocompare_prices_url = "https://min-api.cryptocompare.com/data/pricemulti"
-    tickers = get_input_param_list('tickers')
-    resp = get_cryptocompare_req(cryptocompare_prices_url, {'tsyms': ['USD', 'BTC'], 'fsyms': tickers})
+    resp = get_cryptocompare_req(cryptocompare_prices_url)
+    return resp.text, resp.status_code
+
+'''
+Gets latest news articles from Cryptocompare
+    key: Cryptocompare API Key
+'''
+@app.route('/cryptocompare/news')
+def cryptocompare_news():
+    cryptocompare_news_url = "https://min-api.cryptocompare.com/data/v2/news/"
+    resp = get_cryptocompare_req(cryptocompare_news_url)
     return resp.text, resp.status_code
 
 '''

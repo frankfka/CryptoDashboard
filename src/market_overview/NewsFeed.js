@@ -53,7 +53,7 @@ class CoinDetails extends Component {
                   <TableCell>
                     <div className="news-item">
                       <h5><a href={newsItem.url} target="_blank" rel="noopener noreferrer">{newsItem.title}</a></h5>
-                      <p className="accent-text"><Moment format="LT | MMM DD YYYY">{newsItem.published_at}</Moment> | <span className="bolded">{newsItem.source.title}</span></p>
+                      <p className="accent-text"><Moment format="LT | MMM DD YYYY">{newsItem.published_on}</Moment> | <span className="bolded">{newsItem.source_info.name}</span></p>
                     </div>   
                   </TableCell>
                 </TableRow>
@@ -104,16 +104,16 @@ class CoinDetails extends Component {
   // Pull data for ticker
   fetchData = () => {
 
-    fetch(`https://cryptodash-frankjia.herokuapp.com/cryptopanic/news?key=${this.props.auth}`)
+    fetch(`https://cryptodash-frankjia.herokuapp.com/cryptocompare/news?key=${this.props.auth}`)
       .then(res => res.json())
       .then(
         (result) => {
           this.setState({
             isLoaded: true,
-            data: result.results
+            data: result.Data
           });
-          console.log("Cryptopanic Newsfeed")
-          console.log(result.results)
+          console.log("Cryptocompare Newsfeed")
+          console.log(result.Data)
         },
         (error) => {
           this.setState({

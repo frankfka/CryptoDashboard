@@ -19,7 +19,15 @@ class Portfolio extends Component {
     render() {
         return (
             <div>
-                <Holdings holdings={this.state.binanceHoldings}/>
+
+                <div>
+                    <h1>{`Total Value: $ ${(this.state.binanceHoldings ? this.state.binanceHoldings.reduce((total, holding) => total + holding.usdVal) : 0).toFixed(2)}`}</h1>
+                </div>
+                <div>
+                    <Holdings holdings={this.state.binanceHoldings} />
+                </div>
+
+
             </div>
         )
     }
@@ -48,7 +56,7 @@ class Portfolio extends Component {
                         prices_url = prices_url + `?key=${this.props.keys.cryptocompare}`
                         // Now add the tickers
                         let holdings = Object.keys(balances)
-                        
+
                         prices_url = prices_url + `&tickers=${holdings.join()}`
 
                         fetch(prices_url)
@@ -61,13 +69,13 @@ class Portfolio extends Component {
 
                                     // Construct complete ticker objects
                                     let holdings = []
-                                    for(var ticker in balances) {
+                                    for (var ticker in balances) {
                                         const balance = balances[ticker]
                                         const conversion = result[ticker] // This might not exist if Cryptocompare has no data on this
-                                        let btcConversion = 0, usdConversion = 0 
+                                        let btcConversion = 0, usdConversion = 0
                                         if (conversion) {
-                                            btcConversion = conversion.BTC ? conversion.BTC : 0 
-                                            usdConversion = conversion.USD ? conversion.USD : 0 
+                                            btcConversion = conversion.BTC ? conversion.BTC : 0
+                                            usdConversion = conversion.USD ? conversion.USD : 0
                                         }
                                         holdings.push({
                                             'ticker': ticker,
